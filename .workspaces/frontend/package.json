@@ -1,0 +1,13 @@
+{
+  "name": "@flight-cms/frontend",
+  "version": "1.0.0",
+  "private": true,
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "echo 'Starting frontend dev server...'",
+    "build": "echo 'Building frontend...'"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.0"
+  }
+}
