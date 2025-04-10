@@ -2,11 +2,8 @@
     "name": "alexy-os/flight-cms",
     "description": "Root package for the flight-cms",
     "type": "project",
-    "require": {
-        "latte/latte": "3.0.x-dev",
-        "flightphp/core": "dev-master"
-    },
     "license": "MIT",
+    "homepage": "https://github.com/alexy-os/flight-cms",
     "autoload": {
         "psr-4": {
             "FlightCms\\Core\\": "src/",
@@ -19,8 +16,16 @@
             "name": "AlexY OS"
         }
     ],
+    "require": {
+        "latte/latte": "3.0.x-dev",
+        "flightphp/core": "^3.0",
+        "tracy/tracy": "v2.10.x-dev"
+    },
     "minimum-stability": "dev",
     "config": {
         "vendor-dir": "lib"
+    },
+    "require-dev": {
+        "flightphp/tracy-extensions": "dev-master"
     }
 }

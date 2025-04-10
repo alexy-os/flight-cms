@@ -1,11 +1,15 @@
 <?php
 
-// Define the base path of the application
+use Tracy\Debugger;
+use FlightCms\App\Views\Template;
+
+require dirname(__DIR__, 1) . '/lib/autoload.php';
+
 define('BASE_PATH', dirname(__DIR__));
 
-require BASE_PATH . '/lib/autoload.php';
-
-use FlightCms\App\Views\Template;
+// Tracy Debugger
+Debugger::enable();
+Debugger::$logDirectory = BASE_PATH . '/storage/logs';
 
 Flight::register('template', Template::class);
 
@@ -17,6 +21,9 @@ Flight::register('template', Template::class);
 
 // Basic route example
 Flight::route('/', function(){
+    // route handler
+    bdump('Inside route handler');
+    
     echo Flight::template()->render('home', [
         'title' => 'Speed, Security, Minimalism',
         'description' => 'Flight CMS is a modern, lightweight content management system that prioritizes performance, eliminates redundancy, and optimizes every aspect of your website experience.'
@@ -24,4 +31,4 @@ Flight::route('/', function(){
 });
 
 // Start the Flight engine
-Flight::start(); 
+Flight::start();
