@@ -14,10 +14,8 @@ class Template
         $this->latte = new Engine();
         $this->templatesDir = $templatesDir ?? BASE_PATH . '/app/views';
         
-        // Настройка кэша шаблонов
         $this->latte->setTempDirectory(BASE_PATH . '/storage/cache/latte');
         
-        // Добавляем базовые переменные, доступные во всех шаблонах
         $this->latte->addFilter('url', function ($path) {
             return '/' . ltrim($path, '/');
         });

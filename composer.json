@@ -1,9 +1,10 @@
 {
-    "name": "alex/flight-cms",
+    "name": "alexy-os/flight-cms",
     "description": "Root package for the flight-cms",
     "type": "project",
     "require": {
-        "latte/latte": "3.0.x-dev"
+        "latte/latte": "3.0.x-dev",
+        "flightphp/core": "dev-master"
     },
     "license": "MIT",
     "autoload": {
