@@ -23,7 +23,8 @@
         "latte/latte": "3.0.x-dev",
         "flightphp/core": "^3.0",
         "tracy/tracy": "v2.10.x-dev",
-        "flightphp/active-record": "dev-master"
+        "flightphp/active-record": "dev-master",
+        "flightphp/container": "dev-main"
     },
     "minimum-stability": "dev",
     "config": {
