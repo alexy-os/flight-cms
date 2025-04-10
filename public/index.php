@@ -1,5 +1,10 @@
 <?php
 
+/*
+$ds = DIRECTORY_SEPARATOR;
+require_once __DIR__ . $ds . '..' . $ds . 'app' . $ds . 'config' . $ds . 'bootstrap.php';
+*/
+
 use Tracy\Debugger;
 use FlightCms\App\Views\Template;
 

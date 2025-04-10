@@ -17,15 +17,25 @@
         }
     ],
     "require": {
+        "php": "^8.2",
+        "ext-json": "*",
+        "erusev/parsedown": "^1.7",
         "latte/latte": "3.0.x-dev",
         "flightphp/core": "^3.0",
-        "tracy/tracy": "v2.10.x-dev"
+        "tracy/tracy": "v2.10.x-dev",
+        "flightphp/active-record": "dev-master"
     },
     "minimum-stability": "dev",
     "config": {
-        "vendor-dir": "lib"
+        "vendor-dir": "lib",
+        "allow-plugins": {
+            "phpstan/extension-installer": true
+        }
     },
     "require-dev": {
-        "flightphp/tracy-extensions": "dev-master"
+        "flightphp/tracy-extensions": "^0.2.3",
+        "phpstan/extension-installer": "^1.4",
+        "phpstan/phpstan": "^2.1",
+        "rector/rector": "^2.0"
     }
 }
