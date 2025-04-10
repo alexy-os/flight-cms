@@ -1,0 +1,25 @@
+{
+    "name": "alex/flight-cms",
+    "description": "Root package for the flight-cms",
+    "type": "project",
+    "require": {
+        "latte/latte": "3.0.x-dev"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "FlightCms\\Core\\": "src/",
+            "FlightCms\\Lib\\": "lib/",
+            "FlightCms\\App\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "AlexY OS"
+        }
+    ],
+    "minimum-stability": "dev",
+    "config": {
+        "vendor-dir": "lib"
+    }
+}
