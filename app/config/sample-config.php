@@ -36,6 +36,16 @@ $config['flight'] = [
     // Add other Flight configurations as needed
 ];
 
+// --- Routing Configuration ---
+$config['routing'] = [
+    'routes_file'                     => BASE_PATH . '/app/routes/web.php',
+    'default_route'                   => '/',
+    'fallback_handler'                => function() {
+        return 'Welcome to FlightCMS! Please define routes in app/routes/web.php';
+    },
+    // You can add other routing settings as needed
+];
+
 // --- Database Settings (Example for SQLite) ---
 $config['database'] = [
     'type'     => 'sqlite',

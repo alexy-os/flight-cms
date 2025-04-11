@@ -1,8 +1,5 @@
 <?php
 
-// Удаляем манипуляцию с буферами вывода в начале файла
-// ob_start();
-
 use Tracy\Debugger;
 use FlightCms\App\Views\Template;
 use FlightCms\App\App\Middleware\HeaderSecurityMiddleware;
@@ -27,9 +24,29 @@ if (!file_exists($configLoader)) {
 $config = require $configLoader;
 
 // --- Error Handling & Debugging (Tracy) ---
-// Временно используем стандартный вывод ошибок PHP
-ini_set('display_errors', '1');
-error_reporting(E_ALL);
+if (!empty($config['tracy']['enabled'])) {
+    Debugger::enable(
+        false, // Do not detect environment automatically, use config
+        $config['tracy']['logDirectory'] ?? BASE_PATH . '/storage/logs'
+    );
+    Debugger::$strictMode = $config['tracy']['strictMode'] ?? true;
+    Debugger::$maxDepth = $config['tracy']['maxDepth'] ?? 4;
+    Debugger::$maxLength = $config['tracy']['maxLength'] ?? 150;
+
+    // Disable Flight's content length calculation if Tracy bar is shown
+    if (!empty($config['tracy']['showBar'])) {
+        $config['flight']['content_length'] = false;
+        // Optional: Load Flight Tracy extensions if installed and needed
+        // if (class_exists('\flight\debug\tracy\TracyExtensionLoader')) {
+        //     new \flight\debug\tracy\TracyExtensionLoader(Flight::app(), $config);
+        // }
+    }
+} else {
+    // Production error handling (configure as needed)
+    ini_set('display_errors', '0');
+    ini_set('log_errors', '1');
+    // ini_set('error_log', BASE_PATH . '/storage/logs/php_error.log'); // Example
+}
 
 // --- Configure Flight ---
 foreach ($config['flight'] as $key => $value) {
@@ -38,11 +55,11 @@ foreach ($config['flight'] as $key => $value) {
 
 // --- Register Core Services ---
 // Template Engine (adjust class name if different)
-// Flight::register('template', Template::class);
-Flight::register('template', 'FlightCms\App\Views\Template', [
-    BASE_PATH . '/app/views'
-], function($template) use ($config) {
-    // Базовая конфигурация
+Flight::register('template', Template::class, [], function($template) use ($config) {
+    // Pass config or specific settings to the template engine if needed
+    // $template->setBasePath($config['flight']['views.path']);
+    // $template->setCachePath(BASE_PATH . '/storage/cache/views'); // Example
+    // $template->setDebug($config['flight']['debug']); // Example for Latte
 });
 
 // Database Connection (using Flight's Container and Active Record)
@@ -54,26 +71,22 @@ if (class_exists('\flight\database\PdoWrapper')) {
     });
 }
 
-// --- Register Middleware ---
-// Регистрируем с самыми базовыми настройками
-Flight::register('headerSecurity', 'FlightCms\App\App\Middleware\HeaderSecurityMiddleware');
-
-// Устанавливаем только для production режима, в development можно отключить
-// если постоянно возникают ошибки
-if (defined('ENVIRONMENT') && ENVIRONMENT !== 'development') {
-    Flight::route('*', [Flight::headerSecurity(), 'before'], true);
-}
+// --- Setting Security Headers ---
+$securityHeaders = new HeaderSecurityMiddleware();
+$securityHeaders->before();
 
 // --- Load Application Routes ---
-// Keep routes separate for better organization
-$routesFile = BASE_PATH . '/app/routes/web.php'; // Example path
+$routesFile = $config['routing']['routes_file'] ?? BASE_PATH . '/app/routes/web.php';
 if (file_exists($routesFile)) {
     require $routesFile;
 } else {
-    // Define a fallback route if no routes file is found
-    Flight::route('/', function(){
+    // Use the default handler from the configuration
+    $fallbackHandler = $config['routing']['fallback_handler'] ?? function() {
         echo 'Welcome to FlightCMS! Please define routes in app/routes/web.php';
-    });
+    };
+    $defaultRoute = $config['routing']['default_route'] ?? '/';
+    
+    Flight::route($defaultRoute, $fallbackHandler);
 }
 
 // --- Additional Bootstrap Tasks ---

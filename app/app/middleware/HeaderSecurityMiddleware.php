@@ -10,27 +10,27 @@ class HeaderSecurityMiddleware {
     public static string $nonce = '';
 
     public function before() {
-        // В режиме разработки устанавливаем минимальный набор безопасных заголовков
-        // без CSP, который может блокировать необходимый JavaScript
+        // In development mode, we set the minimum set of secure headers
+        // without CSP, which can block necessary JavaScript
         Flight::response()->header('X-Frame-Options', 'SAMEORIGIN');
         Flight::response()->header('X-Content-Type-Options', 'nosniff');
         
-        // Добавляем простой CSP, разрешающий все в режиме разработки
+        // Add a simple CSP that allows everything in development mode
         if (defined('ENVIRONMENT') && ENVIRONMENT === 'development') {
-            // Максимально разрешающий CSP для разработки
+            // Maximum allowing CSP for development
             Flight::response()->header('Content-Security-Policy', "default-src * 'unsafe-inline' 'unsafe-eval' data: blob:;");
         } else {
-            // В производственном режиме можно будет добавить более строгие настройки
-            // Но пока оставляем базовую безопасность
+            // In production mode, we can add more strict settings
+            // But for now, we leave basic security
             Flight::response()->header('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';");
         }
     }
 
     /**
-     * Простой метод after, который просто ничего не делает
-     * Когда основное работает, можно будет добавить функционал
+     * A simple after method that does nothing
+     * When the main functionality is working, we can add functionality
      */
     public static function after() {
-        // Пустой метод для предотвращения ошибок
+        // Empty method to prevent errors
     }
 }
