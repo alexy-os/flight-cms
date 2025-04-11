@@ -1,39 +1,9 @@
 <?php
 
-/*
-$ds = DIRECTORY_SEPARATOR;
-require_once __DIR__ . $ds . '..' . $ds . 'app' . $ds . 'config' . $ds . 'bootstrap.php';
-*/
+// --- Bootstrap The Application ---
+// Everything happens in bootstrap.php now
+require dirname(__DIR__) . '/app/config/bootstrap.php';
 
-use Tracy\Debugger;
-use FlightCms\App\Views\Template;
-
-require dirname(__DIR__, 1) . '/lib/autoload.php';
-
-define('BASE_PATH', dirname(__DIR__));
-
-// Tracy Debugger
-Debugger::enable();
-Debugger::$logDirectory = BASE_PATH . '/storage/logs';
-
-Flight::register('template', Template::class);
-
-// Load configuration (optional, example)
-// Flight::set('flight.config.path', BASE_PATH . '/app/config');
-
-// Register base routes or include route files
-// require BASE_PATH . '/app/routes/web.php';
-
-// Basic route example
-Flight::route('/', function(){
-    // route handler
-    bdump('Inside route handler');
-    
-    echo Flight::template()->render('home', [
-        'title' => 'Speed, Security, Minimalism',
-        'description' => 'Flight CMS is a modern, lightweight content management system that prioritizes performance, eliminates redundancy, and optimizes every aspect of your website experience.'
-    ]);
-});
-
-// Start the Flight engine
+// --- Run The Application ---
+// Flight::start() will execute the matched route defined in bootstrap.php (or included route files)
 Flight::start();
