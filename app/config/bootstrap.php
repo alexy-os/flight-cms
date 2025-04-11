@@ -2,7 +2,7 @@
 
 use Tracy\Debugger;
 use FlightCms\App\Views\Template;
-use FlightCms\App\App\Middleware\HeaderSecurityMiddleware;
+use FlightCms\App\Middleware\HeaderSecurity;
 
 // --- Essential Constants ---
 define('DS', DIRECTORY_SEPARATOR);
@@ -72,7 +72,7 @@ if (class_exists('\flight\database\PdoWrapper')) {
 }
 
 // --- Setting Security Headers ---
-$securityHeaders = new HeaderSecurityMiddleware();
+$securityHeaders = new HeaderSecurity();
 $securityHeaders->before();
 
 // --- Load Application Routes ---
